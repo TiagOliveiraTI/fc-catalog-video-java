@@ -1,9 +1,9 @@
 package br.dev.otao.domain.category;
 
 import br.dev.otao.domain.AggregateRoot;
+import br.dev.otao.domain.validation.ValidationHandler;
 
 import java.time.Instant;
-import java.util.UUID;
 
 public class Category extends AggregateRoot<CategoryID> {
 
@@ -40,6 +40,11 @@ public class Category extends AggregateRoot<CategoryID> {
         final var id = CategoryID.unique();
         final var now = Instant.now();
         return new Category(id, aName, aDescription, isActive, now, now, null);
+    }
+
+    @Override
+    public void validate(final ValidationHandler handler) {
+        new CategoryValidator(this, handler).validate();
     }
 
     public CategoryID getId() {
